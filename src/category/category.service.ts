@@ -35,14 +35,14 @@ export class CategoryService {
 		}
 	];
 
-	async getAllCategories(): Promise<Object> {
+	async getAll(): Promise<Object> {
 		return {
 			statusCode: 200,
 			data: this.categories,
 		}
 	}
 
-	async addCategory(newCategory: AddCategoryDto): Promise<Object> {
+	async add(newCategory: AddCategoryDto): Promise<Object> {
 		if (this.categories.find(category => category.categoryName.toLowerCase().trim() === newCategory.categoryName.toLowerCase().trim())) {
 			throw new ConflictException(`Category: ${newCategory.categoryName} already exists`);
 		}
@@ -58,11 +58,11 @@ export class CategoryService {
 		}
 	}
 
-	async deleteCategory(categoryId: number): Promise<void> {
+	async delete(id: number): Promise<void> {
 		// const index = this.categories.findIndex(category => category.id === categoryId);
 		var index: number;
 		for (var i = 0; i < this.categories.length; i++) {
-			if (this.categories[i].id === categoryId) {
+			if (this.categories[i].id === id) {
 				index = i;
 				break;
 			}
@@ -70,8 +70,25 @@ export class CategoryService {
 
 
 		if (index === undefined) {
-			throw new NotFoundException(`Category with id: ${categoryId} does not exist`);
+			throw new NotFoundException(`Category with id: ${id} does not exist`);
 		}
 		this.categories.splice(index, 1);
+	}
+
+	async update(id: number, addCategoryDto: AddCategoryDto): Promise<Category> {
+		var index: number;
+		for (var i = 0; i < this.categories.length; i++) {
+			if (this.categories[i].id === id) {
+				index = i;
+				break;
+			}
+		}
+
+		if (index === undefined) {
+			throw new NotFoundException(`Category with id: ${id} does not exist`);
+		}
+		this.categories[index].categoryName = addCategoryDto.categoryName;
+		return this.categories[index];
+
 	}
 }
