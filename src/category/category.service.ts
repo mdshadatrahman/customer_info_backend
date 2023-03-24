@@ -59,12 +59,19 @@ export class CategoryService {
 	}
 
 	async deleteCategory(categoryId: number): Promise<void> {
-		const index = this.categories.findIndex(category => category.id === categoryId);
+		// const index = this.categories.findIndex(category => category.id === categoryId);
+		var index: number;
+		for (var i = 0; i < this.categories.length; i++) {
+			if (this.categories[i].id === categoryId) {
+				index = i;
+				break;
+			}
+		}
 
-		if (!index) {
+
+		if (index === undefined) {
 			throw new NotFoundException(`Category with id: ${categoryId} does not exist`);
 		}
 		this.categories.splice(index, 1);
-
 	}
 }
