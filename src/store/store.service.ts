@@ -7,21 +7,24 @@ export class StoreService {
 	private stores: Store[] = [
 		{
 			id: 0,
-			name: 'City general store',
+			store_name: 'City general store',
+			owner_name: 'John Doe',
 			phone: '08012345678',
 			created_at: new Date(),
 			updated_at: new Date(),
 		},
 		{
 			id: 1,
-			name: 'City general store',
+			store_name: 'City general store',
+			owner_name: 'John Doe',
 			phone: '08012345678',
 			created_at: new Date(),
 			updated_at: new Date(),
 		},
 		{
 			id: 2,
-			name: 'City general store',
+			store_name: 'City general store',
+			owner_name: 'John Doe',
 			phone: '08012345678',
 			created_at: new Date(),
 			updated_at: new Date(),
@@ -43,7 +46,8 @@ export class StoreService {
 	async create(store: AddStore): Promise<Object> {
 		const newStore: Store = {
 			id: this.stores.length,
-			name: store.name,
+			store_name: store.store_name,
+			owner_name: store.owner_name,
 			phone: store.phone,
 			address: store.address,
 			email: store.email,
@@ -72,7 +76,8 @@ export class StoreService {
 
 		const newStore: Store = {
 			id: id,
-			name: store.name,
+			store_name: store.store_name,
+			owner_name: store.owner_name,
 			phone: store.phone,
 			address: store.address,
 			email: store.email,

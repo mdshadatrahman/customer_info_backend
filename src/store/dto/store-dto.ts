@@ -1,6 +1,7 @@
 export class Store {
 	id: number;
-	name: string;
+	store_name: string;
+	owner_name: string;
 	address?: string;
 	phone: string;
 	email?: string;
@@ -12,6 +13,7 @@ export class Store {
 	state?: string;
 	city?: string;
 	area?: string;
+	about?: string;
 	created_at: Date;
 	updated_at: Date;
 }

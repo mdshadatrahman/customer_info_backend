@@ -2,7 +2,10 @@ import { IsNotEmpty } from "class-validator";
 
 export class AddStore {
 	@IsNotEmpty()
-	name: string;
+	store_name: string;
+
+	@IsNotEmpty()
+	owner_name: string;
 
 	@IsNotEmpty()
 	phone: string;
@@ -16,5 +19,6 @@ export class AddStore {
 	country?: string;
 	state?: string;
 	city?: string;
+	about?: string;
 	area?: string;
 }
