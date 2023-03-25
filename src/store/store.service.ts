@@ -1,114 +1,73 @@
-import { Store } from './dto/store-dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { AddStore } from './dto/add-store-dto';
+import { Injectable,  NotFoundException } from '@nestjs/common';
+import { AddStoreDto } from './dto/add-store-dto';
+import { Store } from './store.entity';
 
 @Injectable()
 export class StoreService {
-	private stores: Store[] = [
-		{
-			id: 0,
-			store_name: 'City general store',
-			owner_name: 'John Doe',
-			phone: '08012345678',
-			created_at: new Date(),
-			updated_at: new Date(),
-		},
-		{
-			id: 1,
-			store_name: 'City general store',
-			owner_name: 'John Doe',
-			phone: '08012345678',
-			created_at: new Date(),
-			updated_at: new Date(),
-		},
-		{
-			id: 2,
-			store_name: 'City general store',
-			owner_name: 'John Doe',
-			phone: '08012345678',
-			created_at: new Date(),
-			updated_at: new Date(),
-		}
-
-	];
-
-	async getAll(): Promise<Object> {
-		return {
-			statusCode: 200,
-			data: this.stores,
-		}
+	async getAll(): Promise<Store[]> {
+		return await Store.find();
 	}
 
 	async getOne(id: number): Promise<Store> {
-		return this.stores[id];
+		const result = await Store.findOne({ where: { id: id } });
+		if (!result) {
+			throw new NotFoundException(`Store with id: ${id} does not exist`);
+		}
+		return result;
 	}
 
-	async create(store: AddStore): Promise<Object> {
-		const newStore: Store = {
-			id: this.stores.length,
-			store_name: store.store_name,
-			owner_name: store.owner_name,
-			phone: store.phone,
-			address: store.address,
-			email: store.email,
-			website: store.website,
-			description: store.description,
-			image: store.image,
-			category: store.category,
-			country: store.country,
-			state: store.state,
-			city: store.city,
-			area: store.area,
-			created_at: new Date(),
-			updated_at: new Date(),
-		}
-		this.stores.push(newStore);
-		return {
-			statusCode: 200,
-			data: this.stores[this.stores.length - 1],
-		}
+	async create(store: AddStoreDto): Promise<Store> {
+		const newStore = new Store();
+		newStore.store_name = store.store_name;
+		newStore.owner_name = store.owner_name;
+		newStore.phone = store.phone;
+		newStore.address = store.address;
+		newStore.email = store.email;
+		newStore.website = store.website;
+		newStore.description = store.description;
+		newStore.image = store.image;
+		newStore.category = store.category;
+		newStore.country = store.country;
+		newStore.division = store.division;
+		newStore.city = store.city;
+		newStore.area = store.area;
+		newStore.about = store.about;
+		newStore.created_at = new Date();
+		newStore.updated_at = new Date();
+
+		return await newStore.save();
+
 	}
 
-	async update(id: number, store: AddStore): Promise<Object> {
-		if (!this.getOne(id)) {
-			throw new NotFoundException();
-		}
+	async update(id: number, store: AddStoreDto): Promise<Store> {
+		const newStore: Store = await this.getOne(id);
 
-		const newStore: Store = {
-			id: id,
-			store_name: store.store_name,
-			owner_name: store.owner_name,
-			phone: store.phone,
-			address: store.address,
-			email: store.email,
-			website: store.website,
-			description: store.description,
-			image: store.image,
-			category: store.category,
-			country: store.country,
-			state: store.state,
-			city: store.city,
-			area: store.area,
-			created_at: new Date(),
-			updated_at: new Date(),
-		}
+		newStore.store_name = store.store_name;
+		newStore.owner_name = store.owner_name;
+		newStore.phone = store.phone;
+		newStore.address = store.address;
+		newStore.email = store.email;
+		newStore.website = store.website;
+		newStore.description = store.description;
+		newStore.image = store.image;
+		newStore.category = store.category;
+		newStore.country = store.country;
+		newStore.division = store.division;
+		newStore.city = store.city;
+		newStore.area = store.area;
+		newStore.about = store.about;
+		newStore.updated_at = new Date();
 
-		this.stores[id] = newStore;
-		return {
-			statusCode: 200,
-			data: this.stores[id],
-		}
+		return await newStore.save();
 	}
+
 
 	async delete(id: number): Promise<Object> {
-		if (!this.getOne(id)) {
-			throw new NotFoundException();
-		}
-
-		this.stores.splice(id, 1);
+		await this.getOne(id);
+		await Store.delete(id);
 		return {
 			statusCode: 200,
-			data: this.stores,
+			data: 'Store deleted successfully',
 		}
 	}
 }

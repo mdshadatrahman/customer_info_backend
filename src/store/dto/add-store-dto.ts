@@ -1,6 +1,6 @@
 import { IsNotEmpty } from "class-validator";
 
-export class AddStore {
+export class AddStoreDto {
 	@IsNotEmpty()
 	store_name: string;
 
@@ -10,15 +10,17 @@ export class AddStore {
 	@IsNotEmpty()
 	phone: string;
 
-	address?: string;
+	@IsNotEmpty()
+	address: string;
+
 	email?: string;
 	website?: string;
 	description?: string;
 	image?: string;
 	category?: string;
 	country?: string;
-	state?: string;
+	division?: string;
 	city?: string;
-	about?: string;
 	area?: string;
+	about?: string;
 }
