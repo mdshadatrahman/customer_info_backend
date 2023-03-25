@@ -21,15 +21,12 @@ export class CategoryService {
 		const category = new Category();
 		category.category_name = newCategory.category_name;
 
-		console.log(category);
-
 		try {
 			await category.save();
 			return category;
 		} catch (error) {
 			if (error.code === '23505') {
 				console.log('Category already exists');
-
 				throw new ConflictException('Category already exists');
 			}
 
@@ -37,7 +34,8 @@ export class CategoryService {
 	}
 
 	async delete(id: number): Promise<Category[]> {
-		const result = await Category.delete(id); //TODO check if id exists
+		await this.getOne(id);
+		await Category.delete(id);
 		return this.getAll();
 	}
 

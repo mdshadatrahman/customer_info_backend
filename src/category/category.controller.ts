@@ -24,10 +24,10 @@ export class CategoryController {
 		return this.categoryService.add(newCategory);
 	}
 
-	// @Delete(':id')
-	// async deleteCategory(@Param('id', ParseIntPipe) id: number): Promise<void> {
-	// 	return this.categoryService.delete(id);
-	// }
+	@Delete(':id')
+	async deleteCategory(@Param('id', ParseIntPipe) id: number): Promise<Category[]> {
+		return this.categoryService.delete(id);
+	}
 
 	// @Patch(':id')
 	// async updateCategory(@Param('id', ParseIntPipe) id: number, @Body() addCategoryDto: AddCategoryDto): Promise<CategoryDto> {
