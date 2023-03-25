@@ -1,7 +1,7 @@
 import { AddCategoryDto } from './dto/create-category-dto';
 import { CategoryService } from './category.service';
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
-import { Category } from './dto/category-dto';
+import { CategoryDto } from './dto/category-dto';
 
 @Controller('category')
 export class CategoryController {
@@ -19,14 +19,14 @@ export class CategoryController {
 		return this.categoryService.add(newCategory);
 	}
 
-	@Delete(':id')
-	async deleteCategory(@Param('id', ParseIntPipe) id: number): Promise<void> {
-		return this.categoryService.delete(id);
-	}
+	// @Delete(':id')
+	// async deleteCategory(@Param('id', ParseIntPipe) id: number): Promise<void> {
+	// 	return this.categoryService.delete(id);
+	// }
 
-	@Patch(':id')
-	async updateCategory(@Param('id', ParseIntPipe) id: number, @Body() addCategoryDto: AddCategoryDto): Promise<Category> {
-		return this.categoryService.update(id, addCategoryDto);
-	}
+	// @Patch(':id')
+	// async updateCategory(@Param('id', ParseIntPipe) id: number, @Body() addCategoryDto: AddCategoryDto): Promise<CategoryDto> {
+	// 	return this.categoryService.update(id, addCategoryDto);
+	// }
 
 }
