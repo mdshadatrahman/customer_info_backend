@@ -29,9 +29,9 @@ export class CategoryController {
 		return this.categoryService.delete(id);
 	}
 
-	// @Patch(':id')
-	// async updateCategory(@Param('id', ParseIntPipe) id: number, @Body() addCategoryDto: AddCategoryDto): Promise<CategoryDto> {
-	// 	return this.categoryService.update(id, addCategoryDto);
-	// }
+	@Patch(':id')
+	async updateCategory(@Param('id', ParseIntPipe) id: number, @Body() addCategoryDto: AddCategoryDto): Promise<Category> {
+		return this.categoryService.update(id, addCategoryDto);
+	}
 
 }

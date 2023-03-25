@@ -39,20 +39,10 @@ export class CategoryService {
 		return this.getAll();
 	}
 
-	// async update(id: number, addCategoryDto: AddCategoryDto): Promise<CategoryDto> {
-	// 	var index: number;
-	// 	for (var i = 0; i < this.categories.length; i++) {
-	// 		if (this.categories[i].id === id) {
-	// 			index = i;
-	// 			break;
-	// 		}
-	// 	}
-
-	// 	if (index === undefined) {
-	// 		throw new NotFoundException(`Category with id: ${id} does not exist`);
-	// 	}
-	// 	this.categories[index].categoryName = addCategoryDto.categoryName;
-	// 	return this.categories[index];
-
-	// }
+	async update(id: number, addCategoryDto: AddCategoryDto): Promise<Category> {
+		const category = await this.getOne(id);
+		category.category_name = addCategoryDto.category_name;
+		await category.save();
+		return category;
+	}
 }
