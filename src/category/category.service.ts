@@ -2,6 +2,7 @@ import { AddCategoryDto } from './dto/create-category-dto';
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Category } from './category.entity';
 
+
 @Injectable()
 export class CategoryService {
 
@@ -10,7 +11,7 @@ export class CategoryService {
 	}
 
 	async getOne(id: number): Promise<Category> {
-		const category = await Category.findOne({ where: { id: id } });
+		const category = await Category.findOne({ where: { category_id: id } });
 		if (!category) {
 			throw new NotFoundException(`Category with id: ${id} does not exist`);
 		}
