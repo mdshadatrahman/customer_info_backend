@@ -1,15 +1,15 @@
 import { BaseEntity } from 'typeorm';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
-import { Store } from './store.entity';
+import { Store } from '../store/store.entity';
 
 
 @Entity()
-export class Category extends BaseEntity{
+export class Category extends BaseEntity {
   @PrimaryGeneratedColumn()
   category_id: number;
 
   @Column()
-  category: string;
+  category_name: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -22,5 +22,4 @@ export class Category extends BaseEntity{
 
   @OneToMany(() => Store, store => store.category)
   stores: Store[];
-  category_name: string;
 }

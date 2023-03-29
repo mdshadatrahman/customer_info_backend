@@ -1,4 +1,5 @@
-import { Injectable,  NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Category } from 'src/category/category.entity';
 import { AddStoreDto } from './dto/add-store-dto';
 import { Store } from './store.entity';
 
@@ -9,7 +10,7 @@ export class StoreService {
 	}
 
 	async getOne(id: number): Promise<Store> {
-		const result = await Store.findOne({ where: { id: id } });
+		const result = await Store.findOne({ where: { store_id: id } });
 		if (!result) {
 			throw new NotFoundException(`Store with id: ${id} does not exist`);
 		}
@@ -17,23 +18,24 @@ export class StoreService {
 	}
 
 	async create(store: AddStoreDto): Promise<Store> {
-		const newStore = new Store();
-		newStore.store_name = store.store_name;
-		newStore.owner_name = store.owner_name;
-		newStore.phone = store.phone;
-		newStore.address = store.address;
-		newStore.email = store.email;
-		newStore.website = store.website;
-		newStore.description = store.description;
-		newStore.image = store.image;
-		newStore.category = store.category;
-		newStore.country = store.country;
-		newStore.division = store.division;
-		newStore.city = store.city;
-		newStore.area = store.area;
-		newStore.about = store.about;
-		newStore.created_at = new Date();
-		newStore.updated_at = new Date();
+		const { category, formal_address, store_name,
+			owner_name, informal_address,
+			phone, email, website, description, image, about
+		} = store;
+
+		const newStore: Store = new Store();
+
+		newStore.category = category;
+		newStore.formal_address = formal_address;
+		newStore.store_name = store_name;
+		newStore.owner_name = owner_name;
+		newStore.phone = phone;
+		newStore.informal_address = informal_address;
+		newStore.email = email;
+		newStore.website = website;
+		newStore.description = description;
+		newStore.image = image;
+		newStore.about = about;
 
 		return await newStore.save();
 
@@ -42,21 +44,21 @@ export class StoreService {
 	async update(id: number, store: AddStoreDto): Promise<Store> {
 		const newStore: Store = await this.getOne(id);
 
-		newStore.store_name = store.store_name;
-		newStore.owner_name = store.owner_name;
-		newStore.phone = store.phone;
-		newStore.address = store.address;
-		newStore.email = store.email;
-		newStore.website = store.website;
-		newStore.description = store.description;
-		newStore.image = store.image;
-		newStore.category = store.category;
-		newStore.country = store.country;
-		newStore.division = store.division;
-		newStore.city = store.city;
-		newStore.area = store.area;
-		newStore.about = store.about;
-		newStore.updated_at = new Date();
+		// newStore.store_name = store.store_name;
+		// newStore.owner_name = store.owner_name;
+		// newStore.phone = store.phone;
+		// newStore.address = store.address;
+		// newStore.email = store.email;
+		// newStore.website = store.website;
+		// newStore.description = store.description;
+		// newStore.image = store.image;
+		// newStore.category = store.category;
+		// newStore.country = store.country;
+		// newStore.division = store.division;
+		// newStore.city = store.city;
+		// newStore.area = store.area;
+		// newStore.about = store.about;
+		// newStore.updated_at = new Date();
 
 		return await newStore.save();
 	}

@@ -10,27 +10,27 @@ export class CategoryController {
 	) { }
 
 	@Get()
-	async getCategories(): Promise<Category[]> {
+	async getAll(): Promise<Category[]> {
 		return await this.categoryService.getAll();
 	}
 
 	@Get(':id')
-	async getCategory(@Param('id', ParseIntPipe) id: number): Promise<Category> {
+	async getOne(@Param('id', ParseIntPipe) id: number): Promise<Category> {
 		return await this.categoryService.getOne(id);
 	}
 
 	@Post()
-	async addCategory(@Body() newCategory: AddCategoryDto): Promise<Category> {
+	async add(@Body() newCategory: AddCategoryDto): Promise<Category> {
 		return this.categoryService.add(newCategory);
 	}
 
 	@Delete(':id')
-	async deleteCategory(@Param('id', ParseIntPipe) id: number): Promise<Category[]> {
+	async delete(@Param('id', ParseIntPipe) id: number): Promise<Category[]> {
 		return this.categoryService.delete(id);
 	}
 
 	@Patch(':id')
-	async updateCategory(@Param('id', ParseIntPipe) id: number, @Body() addCategoryDto: AddCategoryDto): Promise<Category> {
+	async update(@Param('id', ParseIntPipe) id: number, @Body() addCategoryDto: AddCategoryDto): Promise<Category> {
 		return this.categoryService.update(id, addCategoryDto);
 	}
 

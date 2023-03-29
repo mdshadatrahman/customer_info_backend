@@ -1,9 +1,9 @@
 import { BaseEntity } from 'typeorm';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
-import { Store } from './store.entity';
+import { Store } from '../store/store.entity';
 
 @Entity()
-export class FormalAddress extends BaseEntity{
+export class FormalAddress extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	formal_address_id: number;
 

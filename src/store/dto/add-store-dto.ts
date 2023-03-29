@@ -1,6 +1,14 @@
+import { Category } from './../../category/category.entity';
 import { IsNotEmpty } from "class-validator";
+import { FormalAddress } from "src/category/formal-address.entity";
 
 export class AddStoreDto {
+	@IsNotEmpty()
+	category: Category;
+
+	@IsNotEmpty()
+	formal_address: FormalAddress;
+
 	@IsNotEmpty()
 	store_name: string;
 
@@ -10,17 +18,10 @@ export class AddStoreDto {
 	@IsNotEmpty()
 	phone: string;
 
-	@IsNotEmpty()
-	address: string;
-
+	informal_address?: string;
 	email?: string;
 	website?: string;
 	description?: string;
 	image?: string;
-	category?: string;
-	country?: string;
-	division?: string;
-	city?: string;
-	area?: string;
 	about?: string;
 }

@@ -3,6 +3,7 @@ import { StoreService } from './store.service';
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Store } from './store.entity';
 
+
 @Controller('store')
 export class StoreController {
 	constructor(
