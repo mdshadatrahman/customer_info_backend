@@ -1,7 +1,9 @@
+import { AddFormalAddressDto } from './dto/add-formal-address-dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Category } from 'src/category/category.entity';
 import { AddStoreDto } from './dto/add-store-dto';
 import { Store } from './store.entity';
+import { FormalAddress } from './formal-address.entity';
 
 @Injectable()
 export class StoreService {
@@ -17,16 +19,32 @@ export class StoreService {
 		return result;
 	}
 
-	async create(store: AddStoreDto): Promise<Store> {
-		const { category, formal_address, store_name,
+	async create(store: AddStoreDto, formalAddress: AddFormalAddressDto, categoryId: number): Promise<Store> {
+		const {
+			country, division, district, thana
+		} = formalAddress;
+
+		const { store_name,
 			owner_name, informal_address,
 			phone, email, website, description, image, about
 		} = store;
 
+		const category = await Category.findOne({ where: { category_id: categoryId } });
+
+		const newFormalAddress: FormalAddress = new FormalAddress();
 		const newStore: Store = new Store();
 
+		newFormalAddress.country = country;
+		newFormalAddress.division = division;
+		newFormalAddress.district = district;
+		newFormalAddress.thana = thana;
+
+		await newFormalAddress.save();
+
+
+
 		newStore.category = category;
-		newStore.formal_address = formal_address;
+		newStore.formal_address = newFormalAddress;
 		newStore.store_name = store_name;
 		newStore.owner_name = owner_name;
 		newStore.phone = phone;

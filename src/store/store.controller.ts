@@ -1,3 +1,4 @@
+import { AddFormalAddressDto } from './dto/add-formal-address-dto';
 import { AddStoreDto } from './dto/add-store-dto';
 import { StoreService } from './store.service';
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
@@ -22,8 +23,8 @@ export class StoreController {
 
 	@Post()
 	@UsePipes(ValidationPipe)
-	async create(@Body() store: AddStoreDto): Promise<Store> {
-		return await this.storeService.create(store);
+	async create(@Body() store: AddStoreDto, @Body() formalAddress: AddFormalAddressDto): Promise<Store> {
+		return await this.storeService.create(store, formalAddress, store.category.category_id);
 	}
 
 	@Patch(':id')

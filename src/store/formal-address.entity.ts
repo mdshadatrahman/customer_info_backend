@@ -1,6 +1,6 @@
 import { BaseEntity } from 'typeorm';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
-import { Store } from '../store/store.entity';
+import { Store } from './store.entity';
 
 @Entity()
 export class FormalAddress extends BaseEntity {

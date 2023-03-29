@@ -1,12 +1,12 @@
 import { Category } from './../../category/category.entity';
 import { IsNotEmpty } from "class-validator";
-import { FormalAddress } from "src/category/formal-address.entity";
+import { FormalAddress } from "src/store/formal-address.entity";
 
 export class AddStoreDto {
 	@IsNotEmpty()
 	category: Category;
 
-	@IsNotEmpty()
+	// @IsNotEmpty()
 	formal_address: FormalAddress;
 
 	@IsNotEmpty()

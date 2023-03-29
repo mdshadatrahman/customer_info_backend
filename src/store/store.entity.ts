@@ -1,18 +1,12 @@
-import { BaseEntity } from 'typeorm';
+import { BaseEntity, JoinColumn } from 'typeorm';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne } from 'typeorm';
 import { Category } from '../category/category.entity';
-import { FormalAddress } from '../category/formal-address.entity';
+import { FormalAddress } from './formal-address.entity';
 
 @Entity()
 export class Store extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	store_id: number;
-
-	@ManyToOne(() => Category, category => category.stores)
-	category: Category;
-
-	@ManyToOne(() => FormalAddress, formalAddress => formalAddress.stores)
-	formal_address: FormalAddress;
 
 	@Column({ nullable: true })
 	store_name: string;
@@ -40,6 +34,14 @@ export class Store extends BaseEntity {
 
 	@Column({ nullable: true })
 	about: string;
+
+	@ManyToOne(() => Category, category => category.stores)
+	@JoinColumn({ name: "category_id" })
+	category: Category;
+
+	@ManyToOne(() => FormalAddress, formalAddress => formalAddress.stores)
+	@JoinColumn({ name: "formal_address_id" })
+	formal_address: FormalAddress;
 
 	@CreateDateColumn()
 	created_at: Date;

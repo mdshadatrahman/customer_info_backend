@@ -1,4 +1,4 @@
-import { FormalAddress } from './formal-address.entity';
+import { FormalAddress } from '../store/formal-address.entity';
 import { Category } from './category.entity';
 import { CacheModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
