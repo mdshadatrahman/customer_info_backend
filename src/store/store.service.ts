@@ -1,14 +1,20 @@
+import { Category } from './../category/category.entity';
 import { AddFormalAddressDto } from './dto/add-formal-address-dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Category } from 'src/category/category.entity';
 import { AddStoreDto } from './dto/add-store-dto';
 import { Store } from './store.entity';
 import { FormalAddress } from './formal-address.entity';
+import { getRepository } from 'typeorm';
 
 @Injectable()
 export class StoreService {
 	async getAll(): Promise<Store[]> {
-		return await Store.find();
+		const result = await Store.find();
+
+		if (!result) {
+			throw new NotFoundException(`No store found`);
+		}
+		return result; // does not return category and formal address
 	}
 
 	async getOne(id: number): Promise<Store> {
@@ -16,7 +22,7 @@ export class StoreService {
 		if (!result) {
 			throw new NotFoundException(`Store with id: ${id} does not exist`);
 		}
-		return result;
+		return result; // does not return category and formal address
 	}
 
 	async create(store: AddStoreDto, formalAddress: AddFormalAddressDto, categoryId: number): Promise<Store> {
@@ -34,15 +40,13 @@ export class StoreService {
 		const newFormalAddress: FormalAddress = new FormalAddress();
 		const newStore: Store = new Store();
 
+		// Assigning the formal address to the store
 		newFormalAddress.country = country;
 		newFormalAddress.division = division;
 		newFormalAddress.district = district;
 		newFormalAddress.thana = thana;
 
-		await newFormalAddress.save();
-
-
-
+		// Assigning the new store
 		newStore.category = category;
 		newStore.formal_address = newFormalAddress;
 		newStore.store_name = store_name;
@@ -55,8 +59,8 @@ export class StoreService {
 		newStore.image = image;
 		newStore.about = about;
 
+		await newFormalAddress.save();
 		return await newStore.save();
-
 	}
 
 	async update(id: number, store: AddStoreDto): Promise<Store> {
