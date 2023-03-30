@@ -4,7 +4,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { AddStoreDto } from './dto/add-store-dto';
 import { Store } from './store.entity';
 import { FormalAddress } from './formal-address.entity';
-import { getRepository } from 'typeorm';
 
 @Injectable()
 export class StoreService {
