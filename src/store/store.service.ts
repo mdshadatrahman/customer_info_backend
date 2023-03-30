@@ -9,7 +9,10 @@ import { getRepository } from 'typeorm';
 @Injectable()
 export class StoreService {
 	async getAll(): Promise<Store[]> {
-		const result = await Store.find();
+		const result = await Store.find({
+			relations: ['category', 'formal_address']
+		});
+
 
 		if (!result) {
 			throw new NotFoundException(`No store found`);
