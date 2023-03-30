@@ -17,15 +17,18 @@ export class StoreService {
 		if (!result) {
 			throw new NotFoundException(`No store found`);
 		}
-		return result; // does not return category and formal address
+		return result;
 	}
 
 	async getOne(id: number): Promise<Store> {
-		const result = await Store.findOne({ where: { store_id: id } });
+		const result = await Store.findOne({
+			where: { store_id: id },
+			relations: ['category', 'formal_address']
+		});
 		if (!result) {
 			throw new NotFoundException(`Store with id: ${id} does not exist`);
 		}
-		return result; // does not return category and formal address
+		return result;
 	}
 
 	async create(store: AddStoreDto, formalAddress: AddFormalAddressDto, categoryId: number): Promise<Store> {
