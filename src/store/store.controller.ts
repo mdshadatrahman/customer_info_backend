@@ -29,8 +29,8 @@ export class StoreController {
 
 	@Patch(':id')
 	@UsePipes(ValidationPipe)
-	async update(@Param('id', ParseIntPipe) id: number, @Body() store: AddStoreDto): Promise<Store> {
-		return await this.storeService.update(id, store);
+	async update(@Param('id', ParseIntPipe) id: number, @Body('category', ParseIntPipe) category: number, @Body() store: AddStoreDto, @Body() formalAddress: AddFormalAddressDto): Promise<Store> {
+		return await this.storeService.update(id, store, category, formalAddress);
 	}
 
 	@Delete(':id')

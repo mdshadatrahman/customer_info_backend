@@ -1,3 +1,4 @@
+import { CategoryDto } from './../category/dto/category-dto';
 import { Category } from './../category/category.entity';
 import { AddFormalAddressDto } from './dto/add-formal-address-dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -18,10 +19,9 @@ export class StoreService {
 	) { }
 
 	async getAll(): Promise<Store[]> {
-		const result = await Store.find({
-			relations: ['category', 'formal_address']
+		const result = this.storeRepository.find({
+			relations: ['category', 'formal_address'],
 		});
-
 
 		if (!result) {
 			throw new NotFoundException(`No store found`);
@@ -30,11 +30,12 @@ export class StoreService {
 	}
 
 	async getOne(id: number): Promise<Store> {
-		const result = await Store.findOne({
+		const result = this.storeRepository.findOne({
 			where: { store_id: id },
 			relations: ['category', 'formal_address']
 		});
-		if (!result) {
+
+		if (! await result) {
 			throw new NotFoundException(`Store with id: ${id} does not exist`);
 		}
 		return result;
@@ -54,26 +55,30 @@ export class StoreService {
 		return await newStore.save();
 	}
 
-	async update(id: number, store: AddStoreDto): Promise<Store> {
-		const newStore: Store = await this.getOne(id);
+	async update(id: number, store: AddStoreDto, category_id: number, formalAddress: AddFormalAddressDto): Promise<Store> {
 
-		// newStore.store_name = store.store_name;
-		// newStore.owner_name = store.owner_name;
-		// newStore.phone = store.phone;
-		// newStore.address = store.address;
-		// newStore.email = store.email;
-		// newStore.website = store.website;
-		// newStore.description = store.description;
-		// newStore.image = store.image;
-		// newStore.category = store.category;
-		// newStore.country = store.country;
-		// newStore.division = store.division;
-		// newStore.city = store.city;
-		// newStore.area = store.area;
-		// newStore.about = store.about;
-		// newStore.updated_at = new Date();
+		const findStore = this.storeRepository.findOne({
+			where: { store_id: id },
+			relations: ['category', 'formal_address'],
+		});
 
-		return await newStore.save();
+		if (! await findStore) {
+			throw new NotFoundException(`Store with id: ${id} does not exist`);
+		}
+
+		const newFormalAddress = this.formalAddressRepository.create(formalAddress);
+		await newFormalAddress.save();
+
+		store.formal_address = newFormalAddress;
+		store.category = await Category.findOne({ where: { category_id: category_id } });
+
+
+
+		return this.storeRepository.save({
+			...await findStore,
+			...store,
+		});
+
 	}
 
 
