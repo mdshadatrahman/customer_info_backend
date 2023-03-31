@@ -4,9 +4,19 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { AddStoreDto } from './dto/add-store-dto';
 import { Store } from './store.entity';
 import { FormalAddress } from './formal-address.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class StoreService {
+	constructor(
+		@InjectRepository(Store)
+		private storeRepository: Repository<Store>,
+
+		@InjectRepository(FormalAddress)
+		private formalAddressRepository: Repository<FormalAddress>,
+	) { }
+
 	async getAll(): Promise<Store[]> {
 		const result = await Store.find({
 			relations: ['category', 'formal_address']
@@ -31,40 +41,16 @@ export class StoreService {
 	}
 
 	async create(store: AddStoreDto, formalAddress: AddFormalAddressDto, categoryId: number): Promise<Store> {
-		const {
-			country, division, district, thana
-		} = formalAddress;
-
-		const { store_name,
-			owner_name, informal_address,
-			phone, email, website, description, image, about
-		} = store;
-
 		const category = await Category.findOne({ where: { category_id: categoryId } });
 
-		const newFormalAddress: FormalAddress = new FormalAddress();
-		const newStore: Store = new Store();
-
-		// Assigning the formal address to the store
-		newFormalAddress.country = country;
-		newFormalAddress.division = division;
-		newFormalAddress.district = district;
-		newFormalAddress.thana = thana;
-
-		// Assigning the new store
-		newStore.category = category;
-		newStore.formal_address = newFormalAddress;
-		newStore.store_name = store_name;
-		newStore.owner_name = owner_name;
-		newStore.phone = phone;
-		newStore.informal_address = informal_address;
-		newStore.email = email;
-		newStore.website = website;
-		newStore.description = description;
-		newStore.image = image;
-		newStore.about = about;
-
+		const newFormalAddress = this.formalAddressRepository.create(formalAddress);
 		await newFormalAddress.save();
+
+
+		store.formal_address = newFormalAddress;
+		store.category = category;
+
+		const newStore = this.storeRepository.create(store);
 		return await newStore.save();
 	}
 

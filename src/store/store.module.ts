@@ -7,7 +7,7 @@ import { FormalAddress } from './formal-address.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Store, StoreModule])
+    TypeOrmModule.forFeature([Store, StoreModule, FormalAddress])
   ],
   controllers: [StoreController],
   providers: [StoreService]
