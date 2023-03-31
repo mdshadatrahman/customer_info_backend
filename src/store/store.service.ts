@@ -83,10 +83,16 @@ export class StoreService {
 
 
 	async delete(id: number): Promise<Object> {
-		await this.getOne(id);
-		await Store.delete(id);
+		const result = await this.getOne(id);
+
+		if (!result) {
+			throw new NotFoundException(`Store with id: ${id} does not exist`);
+		}
+
+		await this.storeRepository.softDelete(id);
+
 		return {
-			statusCode: 200,
+			statusCode: 204,
 			data: 'Store deleted successfully',
 		}
 	}
