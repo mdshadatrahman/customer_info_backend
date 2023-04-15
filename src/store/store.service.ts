@@ -107,4 +107,16 @@ export class StoreService {
 			data: 'Store deleted successfully',
 		}
 	}
+
+	async getStoreByCategory(categoryId: number): Promise<Store[]> {
+		const result = this.storeRepository.find({
+			where: { category: { category_id: categoryId } },
+			relations: ['category', 'formal_address'],
+		});
+
+		if (!result) {
+			throw new NotFoundException(`No store found`);
+		}
+		return result;
+	}
 }

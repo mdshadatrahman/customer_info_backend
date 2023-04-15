@@ -38,4 +38,9 @@ export class StoreController {
 	async delete(@Param('id', ParseIntPipe) id: number): Promise<Object> {
 		return await this.storeService.delete(id);
 	}
+
+	@Get('category/:id')
+	async getStoreByCategory(@Param('id', ParseIntPipe) categoryId: number): Promise<Store[]> {
+		return await this.storeService.getStoreByCategory(categoryId);
+	}
 }
