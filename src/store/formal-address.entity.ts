@@ -1,6 +1,9 @@
-import { BaseEntity } from 'typeorm';
+import { BaseEntity, ManyToOne } from 'typeorm';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
 import { Store } from './store.entity';
+import { Division } from 'src/divisions/entities/division.entity';
+import { District } from 'src/districts/entities/district.entity';
+import { Upazila } from 'src/upazilas/entities/upazila.entity';
 
 @Entity()
 export class FormalAddress extends BaseEntity {
@@ -10,14 +13,14 @@ export class FormalAddress extends BaseEntity {
 	@Column({ nullable: true })
 	country: string;
 
-	@Column({ nullable: true })
-	division: string;
+	@ManyToOne(() => Division, division => division.formalAddress)
+	division: Division;
 
-	@Column({ nullable: true })
-	district: string;
+	@ManyToOne(() => District, district => district.formalAddress)
+	district: District;
 
-	@Column({ nullable: true })
-	thana: string;
+	@ManyToOne(() => Upazila, upazila => upazila.formalAddress)
+	upazila: Upazila;
 
 	@CreateDateColumn()
 	created_at: Date;

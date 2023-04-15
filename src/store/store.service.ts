@@ -7,6 +7,9 @@ import { Store } from './store.entity';
 import { FormalAddress } from './formal-address.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Division } from 'src/divisions/entities/division.entity';
+import { District } from 'src/districts/entities/district.entity';
+import { Upazila } from 'src/upazilas/entities/upazila.entity';
 
 @Injectable()
 export class StoreService {
@@ -43,6 +46,10 @@ export class StoreService {
 
 	async create(store: AddStoreDto, formalAddress: AddFormalAddressDto, categoryId: number): Promise<Store> {
 		const category = await Category.findOne({ where: { category_id: categoryId } });
+
+		formalAddress.division = await Division.findOne({ where: { id: formalAddress.division.id } });
+		formalAddress.district = await District.findOne({ where: { id: formalAddress.district.id } });
+		formalAddress.upazila = await Upazila.findOne({ where: { id: formalAddress.upazila.id } });
 
 		const newFormalAddress = this.formalAddressRepository.create(formalAddress);
 		await newFormalAddress.save();

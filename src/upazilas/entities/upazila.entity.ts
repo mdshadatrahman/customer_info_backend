@@ -1,5 +1,6 @@
 import { District } from 'src/districts/entities/district.entity';
 import { Division } from 'src/divisions/entities/division.entity';
+import { FormalAddress } from 'src/store/formal-address.entity';
 import {
   BaseEntity,
   Column,
@@ -10,6 +11,7 @@ import {
   Unique,
   JoinColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -45,6 +47,9 @@ export class Upazila extends BaseEntity {
     onDelete: "CASCADE",
   })
   division: Division;
+
+  @OneToMany(() => FormalAddress, (formalAddress) => formalAddress.upazila)
+  formalAddress: FormalAddress[]
 }
 
 export class UpazilaFillableFields {

@@ -1,5 +1,6 @@
 import { Upazila } from './../../upazilas/entities/upazila.entity';
 import { Division } from 'src/divisions/entities/division.entity';
+import { FormalAddress } from 'src/store/formal-address.entity';
 import {
   BaseEntity,
   Column,
@@ -52,6 +53,9 @@ export class District extends BaseEntity {
     cascade: ["insert", "update"],
   })
   upazila: Upazila[]
+
+  @OneToMany(()=> FormalAddress, (formalAddress) => formalAddress.district)
+  formalAddress: FormalAddress[]
 }
 
 export class DistrictFillableFields {
