@@ -23,8 +23,9 @@ export class StoreController {
 
 	@Post()
 	@UsePipes(ValidationPipe)
-	async create(@Body() store: AddStoreDto, @Body() formalAddress: AddFormalAddressDto): Promise<Store> {
-		return await this.storeService.create(store, formalAddress, store.category.category_id);
+	async create(@Body() store: AddStoreDto, @Body() formalAddress: AddFormalAddressDto, @Body('category') categoryId: number): Promise<Store> {
+		console.log(categoryId)
+		return await this.storeService.create(store, formalAddress, categoryId);
 	}
 
 	@Patch(':id')

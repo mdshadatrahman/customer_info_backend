@@ -1,10 +1,10 @@
+import { FormalAddress } from 'src/store/formal-address.entity';
 import { CategoryDto } from './../category/dto/category-dto';
 import { Category } from './../category/category.entity';
 import { AddFormalAddressDto } from './dto/add-formal-address-dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AddStoreDto } from './dto/add-store-dto';
 import { Store } from './store.entity';
-import { FormalAddress } from './formal-address.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Division } from 'src/divisions/entities/division.entity';
@@ -44,12 +44,15 @@ export class StoreService {
 		return result;
 	}
 
-	async create(store: AddStoreDto, formalAddress: AddFormalAddressDto, categoryId: number): Promise<Store> {
+	async create(store: AddStoreDto, formalAddressDto: AddFormalAddressDto, categoryId: number): Promise<Store> {
 		const category = await Category.findOne({ where: { category_id: categoryId } });
 
-		formalAddress.division = await Division.findOne({ where: { id: formalAddress.division.id } });
-		formalAddress.district = await District.findOne({ where: { id: formalAddress.district.id } });
-		formalAddress.upazila = await Upazila.findOne({ where: { id: formalAddress.upazila.id } });
+		const formalAddress: FormalAddress = new FormalAddress();
+
+		formalAddress.division = await Division.findOneBy({ id: formalAddressDto.divisionId });
+		formalAddress.district = await District.findOne({ where: { id: formalAddressDto.districtId } });
+		formalAddress.upazila = await Upazila.findOne({ where: { id: formalAddressDto.upazilaId } });
+		formalAddress.country = formalAddressDto.country;
 
 		const newFormalAddress = this.formalAddressRepository.create(formalAddress);
 		await newFormalAddress.save();
@@ -57,6 +60,7 @@ export class StoreService {
 
 		store.formal_address = newFormalAddress;
 		store.category = category;
+		console.log(category);
 
 		const newStore = this.storeRepository.create(store);
 		return await newStore.save();

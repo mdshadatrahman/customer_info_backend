@@ -7,11 +7,11 @@ export class AddFormalAddressDto {
 	country: string;
 
 	@IsNotEmpty()
-	division: Division;
+	divisionId: number;
 
 	@IsNotEmpty()
-	district: District;
+	districtId: number;
 
 	@IsNotEmpty()
-	upazila: Upazila;
+	upazilaId: number;
 }
