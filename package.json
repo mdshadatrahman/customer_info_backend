@@ -21,7 +21,7 @@
     "start:azure": "npm run build && func host start"
   },
   "dependencies": {
-    "@azure/functions": "^1.0.3",
+    "@azure/functions": "^3.5.1",
     "@nestjs/azure-func-http": "^0.9.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
