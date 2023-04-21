@@ -2,6 +2,8 @@ import { BaseEntity, JoinColumn } from 'typeorm';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne } from 'typeorm';
 import { Category } from '../category/category.entity';
 import { FormalAddress } from './formal-address.entity';
+import { SubCategory } from 'src/sub-category/entities/sub-category.entity';
+import { subscribeOn } from 'rxjs';
 
 @Entity()
 export class Store extends BaseEntity {
@@ -42,6 +44,10 @@ export class Store extends BaseEntity {
 	@ManyToOne(() => FormalAddress, formalAddress => formalAddress.stores)
 	@JoinColumn({ name: "formal_address_id" })
 	formal_address: FormalAddress;
+
+	@ManyToOne(() => SubCategory, subCategory => subCategory.stores)
+	@JoinColumn({ name: "subCategory_id" })
+	subcategory: SubCategory;
 
 	@CreateDateColumn()
 	created_at: Date;

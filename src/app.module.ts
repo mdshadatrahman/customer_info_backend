@@ -8,6 +8,7 @@ import { StoreModule } from './store/store.module';
 import { DivisionsModule } from './divisions/divisions.module';
 import { DistrictsModule } from './districts/districts.module';
 import { UpazilasModule } from './upazilas/upazilas.module';
+import { SubCategoryModule } from './sub-category/sub-category.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UpazilasModule } from './upazilas/upazilas.module';
     DivisionsModule,
     DistrictsModule,
     UpazilasModule,
+    SubCategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
