@@ -1,13 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { SubCategoryService } from './sub-category.service';
 import { CreateSubCategoryDto } from './dto/create-sub-category.dto';
 import { UpdateSubCategoryDto } from './dto/update-sub-category.dto';
 
 @Controller('sub-category')
 export class SubCategoryController {
-  constructor(private readonly subCategoryService: SubCategoryService) {}
+  constructor(private readonly subCategoryService: SubCategoryService) { }
 
   @Post()
+  @UsePipes(ValidationPipe)
   create(@Body() createSubCategoryDto: CreateSubCategoryDto) {
     return this.subCategoryService.create(createSubCategoryDto);
   }
