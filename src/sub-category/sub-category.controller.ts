@@ -24,6 +24,7 @@ export class SubCategoryController {
   }
 
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   update(@Param('id') id: string, @Body() updateSubCategoryDto: UpdateSubCategoryDto) {
     return this.subCategoryService.update(+id, updateSubCategoryDto);
   }
