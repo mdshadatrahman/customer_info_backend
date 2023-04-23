@@ -1,5 +1,4 @@
 import { FormalAddress } from 'src/store/formal-address.entity';
-import { CategoryDto } from './../category/dto/category-dto';
 import { Category } from './../category/category.entity';
 import { AddFormalAddressDto } from './dto/add-formal-address-dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -10,6 +9,7 @@ import { Repository } from 'typeorm';
 import { Division } from 'src/divisions/entities/division.entity';
 import { District } from 'src/districts/entities/district.entity';
 import { Upazila } from 'src/upazilas/entities/upazila.entity';
+import { SubCategory } from 'src/sub-category/entities/sub-category.entity';
 
 @Injectable()
 export class StoreService {
@@ -22,13 +22,7 @@ export class StoreService {
 	) { }
 
 	async getAll(): Promise<Store[]> {
-		const result = this.storeRepository.find({
-			relations: ['category', 'formal_address'],
-		});
-
-		if (!result) {
-			throw new NotFoundException(`No store found`);
-		}
+		const result = this.storeRepository.find();
 		return result;
 	}
 
@@ -46,6 +40,12 @@ export class StoreService {
 
 	async create(store: AddStoreDto, formalAddressDto: AddFormalAddressDto, categoryId: number): Promise<Store> {
 		const category = await Category.findOne({ where: { category_id: categoryId } });
+		const subCategory = await SubCategory.findOne({ where: { subCategory_id: store.subCategory_id } });
+
+		if (!subCategory) {
+			throw new NotFoundException(`Subcategory with id: ${store.subCategory_id} not found`)
+		}
+		console.log(subCategory);
 
 		const formalAddress: FormalAddress = new FormalAddress();
 
@@ -60,9 +60,11 @@ export class StoreService {
 
 		store.formal_address = newFormalAddress;
 		store.category = category;
-		console.log(category);
+
 
 		const newStore = this.storeRepository.create(store);
+		newStore.subcategory = subCategory;
+
 		return await newStore.save();
 	}
 
