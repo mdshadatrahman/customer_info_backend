@@ -7,6 +7,7 @@ import { response } from 'express';
 
 @Injectable()
 export class SubCategoryService {
+
   async create(createSubCategoryDto: CreateSubCategoryDto): Promise<SubCategory> {
     const category = await Category.findOne({ where: { category_id: createSubCategoryDto.category_id } });
 
@@ -55,5 +56,15 @@ export class SubCategoryService {
     await this.findOne(id);
     await SubCategory.delete(id);
     throw new HttpException('Deleted', 204)
+  }
+
+  async getAllByCategoryId(categoryId: number): Promise<SubCategory[]> {
+    const category = await Category.findOne({ where: { category_id: categoryId } });
+    if (!category) {
+      throw new NotFoundException(`Category with id: ${categoryId} no found`);
+    }
+    const subCategory = await SubCategory.find({ where: { category: { category_id: categoryId } }, relations: ['category'] });
+
+    return subCategory;
   }
 }

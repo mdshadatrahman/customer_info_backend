@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
 import { SubCategoryService } from './sub-category.service';
 import { CreateSubCategoryDto } from './dto/create-sub-category.dto';
 import { UpdateSubCategoryDto } from './dto/update-sub-category.dto';
@@ -32,5 +32,10 @@ export class SubCategoryController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.subCategoryService.remove(+id);
+  }
+
+  @Get('category/:id')
+  getAllByCategoryId(@Param('id', ParseIntPipe) id: number) {
+    return this.subCategoryService.getAllByCategoryId(id);
   }
 }
