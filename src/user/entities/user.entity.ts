@@ -1,5 +1,4 @@
 import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { hash } from "bcrypt";
 
 @Entity({ name: 'users' })
 export class UserEntity {

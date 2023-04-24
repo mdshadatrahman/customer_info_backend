@@ -9,9 +9,8 @@ import { JWT_TOKEN } from "src/config";
 export class AuthMiddleware implements NestMiddleware {
 	constructor(
 		private readonly userService: UserService
-	) {
+	) { }
 
-	}
 	async use(req: ExpressRequest, _: Response, next: NextFunction) {
 		if (!req.headers.authorization) {
 			req.user = null;
@@ -24,6 +23,7 @@ export class AuthMiddleware implements NestMiddleware {
 		try {
 			const decode = verify(token, JWT_TOKEN);
 			const user = await this.userService.findOneById(decode.id);
+
 			req.user = user;
 			next();
 		} catch (error) {
