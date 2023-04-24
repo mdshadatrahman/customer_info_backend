@@ -43,4 +43,9 @@ export class StoreController {
 	async getStoreByCategory(@Param('id', ParseIntPipe) categoryId: number): Promise<Store[]> {
 		return await this.storeService.getStoreByCategory(categoryId);
 	}
+
+	@Get('sub-category/:id')
+	async getStoreBySubCategory(@Param('id', ParseIntPipe) id: number): Promise<Store[]> {
+		return await this.storeService.getStoreBySubCategory(id);
+	}
 }

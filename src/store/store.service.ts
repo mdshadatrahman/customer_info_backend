@@ -121,4 +121,9 @@ export class StoreService {
 		}
 		return result;
 	}
+
+	async getStoreBySubCategory(id: number): Promise<Store[]> {
+		const store = await this.storeRepository.find({ where: { subcategory: { subCategory_id: id } }, relations: ['category', 'formal_address', 'subcategory'] });
+		return store;
+	}
 }
