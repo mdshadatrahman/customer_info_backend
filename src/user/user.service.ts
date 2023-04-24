@@ -46,7 +46,7 @@ export class UserService {
 			throw new HttpException('Invalid Credentials', HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 
-		const validUser = await loginUserDto.password === user.password;
+		const validUser = loginUserDto.password === user.password;
 
 		if (!validUser) {
 			throw new HttpException('Invalid Credentials', HttpStatus.UNPROCESSABLE_ENTITY);
