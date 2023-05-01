@@ -56,4 +56,22 @@ export class StoreController {
 	async getStoreBySubCategory(@Param('id', ParseIntPipe) id: number): Promise<Store[]> {
 		return await this.storeService.getStoreBySubCategory(id);
 	}
+
+	@Get('division/:id')
+	@UseGuards(AuthGuard)
+	async getStoresByDivisionId(@Param('id', ParseIntPipe) id: number): Promise<Store[]> {
+		return await this.storeService.getStoresByDivisionId(id);
+	}
+
+	@Get('district/:id')
+	@UseGuards(AuthGuard)
+	async getStoresByDistrictId(@Param('id', ParseIntPipe) id: number): Promise<Store[]> {
+		return await this.storeService.getStoresByDistrictId(id);
+	}
+
+	@Get('upazila/:id')
+	@UseGuards(AuthGuard)
+	async getStoresByUpazilaId(@Param('id', ParseIntPipe) id: number): Promise<Store[]> {
+		return await this.storeService.getStoresByUpazilaId(id);
+	}
 }

@@ -126,4 +126,19 @@ export class StoreService {
 		const store = await this.storeRepository.find({ where: { subcategory: { subCategory_id: id } }, relations: ['category', 'formal_address', 'subcategory'] });
 		return store;
 	}
+
+	async getStoresByDivisionId(id: number): Promise<Store[]> {
+		const store = await this.storeRepository.find({ where: { formal_address: { division: { id: id } } }, relations: ['category', 'formal_address', 'subcategory'] });
+		return store;
+	}
+
+	async getStoresByDistrictId(id: number): Promise<Store[]> {
+		const store = await this.storeRepository.find({ where: { formal_address: { district: { id: id } } }, relations: ['category', 'formal_address', 'subcategory'] });
+		return store;
+	}
+
+	async getStoresByUpazilaId(id: number): Promise<Store[]> {
+		const store = await this.storeRepository.find({ where: { formal_address: { upazila: { id: id } } }, relations: ['category', 'formal_address', 'subcategory'] });
+		return store;
+	}
 }
